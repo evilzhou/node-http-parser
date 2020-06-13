@@ -1,18 +1,14 @@
 # node-http-parser
 node addon: http parser
 
-[build]
-
+## build
 npm install
 
-[run]
-
+## run
 node index.js
 
-[notice]
-
+## notice
 node-gyp will be installed
 
-[demo]
-
+## demo
 ![demo](https://github.com/evilzhou/node-http-parser/blob/master/README.jpg)
