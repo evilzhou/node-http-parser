@@ -7,21 +7,21 @@ Value Parse(const CallbackInfo& args) {
     Env env = args.Env();
     if (args.Length() != 1) {
         TypeError::New(env, "args length != 1").ThrowAsJavaScriptException();
-        return env.Null();
+        return env.Undefined();
     }
     if (!args[0].IsObject()) {
         TypeError::New(env, "args[0] must be Object").ThrowAsJavaScriptException();
-        return env.Null();
+        return env.Undefined();
     }
     auto argObj = args[0].ToObject();
     if (argObj.IsNull()) {
         TypeError::New(env, "args[0] must not be null").ThrowAsJavaScriptException();
-        return env.Null();
+        return env.Undefined();
     }
     auto buffer = argObj.Get("buffer");
     if (!buffer.IsBuffer()) {
         TypeError::New(env, "args[0].buffer must be Buffer").ThrowAsJavaScriptException();
-        return env.Null();
+        return env.Undefined();
     }
 
     http_parser parser;
@@ -106,7 +106,7 @@ Value Parse(const CallbackInfo& args) {
         auto env = argObj.Env();
         auto on_chunk_header = argObj.Get("on_chunk_header");
         if (!on_chunk_header.IsUndefined() && on_chunk_header.IsFunction()) {
-            on_chunk_header.As<Function>().Call(argObj, { Buffer<const char>::New(env, parser->content_length) });
+            on_chunk_header.As<Function>().Call(argObj, {});
         }
         return 0;
     };
@@ -121,7 +121,7 @@ Value Parse(const CallbackInfo& args) {
     };
     http_parser_execute(&parser, &setting, buffer.As<Buffer<const char>>().Data(), buffer.As<Buffer<const char>>().ByteLength());
 
-    return env.Undefined();
+    return Number::From(env, parser.http_errno);
 }
 
 Object Init(Env env, Object exports) {
