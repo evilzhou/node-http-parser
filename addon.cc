@@ -31,7 +31,6 @@ Value Parse(const CallbackInfo& args) {
     http_parser_settings_init(&setting);
     setting.on_message_begin = [](http_parser* parser)->int {
         auto argObj = *(Object*)parser->data;
-        auto env = argObj.Env();
         auto on_message_begin = argObj.Get("on_message_begin");
         if (!on_message_begin.IsUndefined() && on_message_begin.IsFunction()) {
             on_message_begin.As<Function>().Call(argObj, {});
@@ -76,7 +75,6 @@ Value Parse(const CallbackInfo& args) {
     };
     setting.on_headers_complete = [](http_parser* parser)->int {
         auto argObj = *(Object*)parser->data;
-        auto env = argObj.Env();
         auto on_headers_complete = argObj.Get("on_headers_complete");
         if (!on_headers_complete.IsUndefined() && on_headers_complete.IsFunction()) {
             on_headers_complete.As<Function>().Call(argObj, {});
@@ -94,7 +92,6 @@ Value Parse(const CallbackInfo& args) {
     };
     setting.on_message_complete = [](http_parser* parser)->int {
         auto argObj = *(Object*)parser->data;
-        auto env = argObj.Env();
         auto on_message_complete = argObj.Get("on_message_complete");
         if (!on_message_complete.IsUndefined() && on_message_complete.IsFunction()) {
             on_message_complete.As<Function>().Call(argObj, {});
@@ -103,7 +100,6 @@ Value Parse(const CallbackInfo& args) {
     };
     setting.on_chunk_header = [](http_parser* parser)->int {
         auto argObj = *(Object*)parser->data;
-        auto env = argObj.Env();
         auto on_chunk_header = argObj.Get("on_chunk_header");
         if (!on_chunk_header.IsUndefined() && on_chunk_header.IsFunction()) {
             on_chunk_header.As<Function>().Call(argObj, {});
@@ -112,7 +108,6 @@ Value Parse(const CallbackInfo& args) {
     };
     setting.on_chunk_complete = [](http_parser* parser)->int {
         auto argObj = *(Object*)parser->data;
-        auto env = argObj.Env();
         auto on_chunk_complete = argObj.Get("on_chunk_complete");
         if (!on_chunk_complete.IsUndefined() && on_chunk_complete.IsFunction()) {
             on_chunk_complete.As<Function>().Call(argObj, {});
